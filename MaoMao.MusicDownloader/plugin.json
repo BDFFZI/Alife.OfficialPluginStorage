@@ -1,0 +1,10 @@
+{
+  "id": "MaoMao.MusicDownloader",
+  "name": "在线点歌助手",
+  "description": "输入歌名就能从网易云搜索下载音频文件。支持SearchMusic（搜索）、DownloadMusic（按歌名下载）、DownloadMusicById（按歌曲ID下载）三个功能。",
+  "version": "1.0.0",
+  "author": "真央",
+  "category": "真央的小玩意",
+  "main": "MaoMaoMusicDownloader.cs",
+  "dependencies": []
+}
