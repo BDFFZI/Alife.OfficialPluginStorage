@@ -1,0 +1,11 @@
+
+{
+  "id": "maomao-music-plugin",
+  "name": "MaoMaoMusicPlugin",
+  "author": "真央",
+  "description": "在线点歌助手，从网易云搜索下载音频文件",
+  "version": "1.0.0",
+  "tags": ["音乐", "点歌", "下载"],
+  "source": "https://github.com/BDFFZI/Alife.OfficialPluginStorage",
+  "main": "MaoMaoMusicPlugin.cs"
+}
