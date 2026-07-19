@@ -21,7 +21,8 @@ public class MaoMaoMusicDownloaderData
 }
 
 [Module(
-    "在线点歌助手", "输入歌名就能从网易云搜索下载音频文件。支持关键词搜索和ID直链下载。"
+    "在线点歌助手", "输入歌名就能从网易云搜索下载音频文件。支持关键词搜索和ID直链下载。",
+    Category = "娱乐/音乐"
 )]
 public class MaoMaoMusicDownloader(
     XmlFunctionCaller functionService,
@@ -106,12 +107,33 @@ public class MaoMaoMusicDownloader(
             proc.Start();
             string output = proc.StandardOutput.ReadToEnd();
             proc.WaitForExit(60000);
-            var mp3s = Directory.GetFiles(downloadPath, "*.mp3");
-            if (mp3s.Length > 0)
+            // 从yt-dlp输出中提取文件名
+            string fileName = "";
+            foreach (var line in output.Split('\n'))
             {
-                var f = mp3s[^1];
-                var fi = new FileInfo(f);
-                Poke($"下载完成！{Path.GetFileName(f)} ({fi.Length/1024}KB)");
+                if (line.Contains("[ExtractAudio]") && line.Contains(" mp3"))
+                {
+                    var match = System.Text.RegularExpressions.Regex.Match(line, @"Destination:\s*(.+?\.mp3)");
+                    if (match.Success)
+                        fileName = Path.GetFileName(match.Groups[1].Value);
+                }
+                if (line.Contains("[download]") && line.Contains("100%"))
+                {
+                    var match = System.Text.RegularExpressions.Regex.Match(line, @"of\s+(.+?\.mp3)");
+                    if (match.Success)
+                        fileName = Path.GetFileName(match.Groups[1].Value);
+                }
+            }
+            if (string.IsNullOrEmpty(fileName))
+            {
+                var mp3s = Directory.GetFiles(downloadPath, "*.mp3");
+                if (mp3s.Length > 0)
+                    fileName = Path.GetFileName(mp3s[^1]);
+            }
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                var fi = new FileInfo(Path.Combine(downloadPath, fileName));
+                Poke($"下载完成！{fileName} ({fi.Length/1024}KB)");
             }
             else
             {
@@ -146,12 +168,32 @@ public class MaoMaoMusicDownloader(
             proc.Start();
             string output = proc.StandardOutput.ReadToEnd();
             proc.WaitForExit(60000);
-            var mp3s = Directory.GetFiles(downloadPath, "*.mp3");
-            if (mp3s.Length > 0)
+            string fileName = "";
+            foreach (var line in output.Split('\n'))
             {
-                var f = mp3s[^1];
-                var fi = new FileInfo(f);
-                Poke($"歌曲ID {songId} 下载完成！{Path.GetFileName(f)} ({fi.Length/1024}KB)");
+                if (line.Contains("[ExtractAudio]") && line.Contains(" mp3"))
+                {
+                    var match = System.Text.RegularExpressions.Regex.Match(line, @"Destination:\s*(.+?\.mp3)");
+                    if (match.Success)
+                        fileName = Path.GetFileName(match.Groups[1].Value);
+                }
+                if (line.Contains("[download]") && line.Contains("100%"))
+                {
+                    var match = System.Text.RegularExpressions.Regex.Match(line, @"of\s+(.+?\.mp3)");
+                    if (match.Success)
+                        fileName = Path.GetFileName(match.Groups[1].Value);
+                }
+            }
+            if (string.IsNullOrEmpty(fileName))
+            {
+                var mp3s = Directory.GetFiles(downloadPath, "*.mp3");
+                if (mp3s.Length > 0)
+                    fileName = Path.GetFileName(mp3s[^1]);
+            }
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                var fi = new FileInfo(Path.Combine(downloadPath, fileName));
+                Poke($"歌曲ID {songId} 下载完成！{fileName} ({fi.Length/1024}KB)");
             }
             else
             {
