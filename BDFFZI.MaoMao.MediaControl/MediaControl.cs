@@ -13,8 +13,8 @@ namespace BDFFZI.MaoMao.MediaControl;
     defaultCategory: "真央的小工具")]
 public class MediaControlModule(
     XmlFunctionCaller functionService,
-    ILogger<NowPlayingModule> logger
-) : InteractiveModule<NowPlayingModule>
+    ILogger<MediaControlModule> logger
+) : InteractiveModule<MediaControlModule>
 {
     public override async Task AwakeAsync(AwakeContext context)
     {
