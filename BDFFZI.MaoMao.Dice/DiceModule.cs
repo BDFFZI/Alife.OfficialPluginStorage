@@ -74,7 +74,7 @@ public class DiceModule(
             Explanation = "支持单颗和多颗骰子投掷，可自定义面数和数量"
         };
         functionCaller.RegisterHandler(xmlHandler,
-            DocumentMode.Implicit,
+            DocumentMode.Explicit,
             cancellationToken: DestroyCancellationToken
         );
         return Task.CompletedTask;
