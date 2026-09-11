@@ -48,7 +48,7 @@ public class TelegramBotConfig
 
 [Module("TG聊天",
     "连接 Telegram Bot API（长轮询），实现TG消息收发。需要能访问 api.telegram.org 的网络环境。",
-    defaultCategory: "真央/小工具")]
+    defaultCategory: "真央的小工具")]
 public class TelegramBotService(
     XmlFunctionCaller functionService,
     MessageFilterService messageFilterService,
