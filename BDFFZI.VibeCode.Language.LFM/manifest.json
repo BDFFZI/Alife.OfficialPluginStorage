@@ -1,0 +1,18 @@
+{
+  "Version": "1.0.0",
+  "Dependencies": {
+    "Alife.Function.AIModelUtility": ""
+  },
+  "Environments": {
+    "nuget": {
+      "Microsoft.SemanticKernel": "==1.77.0",
+      "Microsoft.SemanticKernel.Connectors.OpenAI": "==1.77.0"
+    },
+    "pip": {
+      "transformers": ">=5.2.0",
+      "torch": "",
+      "accelerate": "",
+      "numpy": ""
+    }
+  }
+}
